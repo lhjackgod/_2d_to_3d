@@ -3,7 +3,7 @@ from collections import defaultdict
 import re
 # 文件夹路径
 def PointType(path):
-    folder_path = '../0000/features'
+    folder_path = path
 
     # 创建一个默认字典来存储文件名集合
     file_sets = defaultdict(list)
