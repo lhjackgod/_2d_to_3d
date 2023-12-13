@@ -4,13 +4,15 @@ import load_model
 import RAndT
 import isvisable
 import time
-def _3d_to_uv(special,path_mesh,rtpath,kpath,RT_change):
+import usage
+def _3d_to_uv(special,path_mesh,rtpath,kpath,RT_change,v_idx_path,f_idx_path):
     start_time = None
     if special==1:
         start_time = time.time()
 
     # 加载 OBJ 模型
-    mesh = load_model.load_m(path_mesh)
+    # mesh = load_model.load_m(path_mesh)
+    mesh=usage.back_mesh(path_mesh,v_idx_path,f_idx_path)
     #存三维点
     _3d=[]
     # 相机内外参

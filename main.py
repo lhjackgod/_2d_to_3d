@@ -11,7 +11,7 @@ import time
 import json
 import math
 import getlowerindex
-def approach(path,facial,RT_change):
+def approach(path,facial,RT_change,v_idx_path,f_idx_path):
     CameraInfo = GetCameraInfo.GetCameraInfo(f'{path}/cam_info.yml')
     camerainfouv = defaultdict(list)
     _3d = []
@@ -22,16 +22,13 @@ def approach(path,facial,RT_change):
     for cameratype, data in CameraInfo.items():
         if cameratype == '064051002446':
             pixel_coords, _3d_left_ear=wtouv._3d_to_uv(1,f'{path}/{facial}/obj/face_0000_pr.obj', f'{path}/cam_res/{data[0]}.yml',
-                                            f'{path}/calib_res/{data[1]}.yml',RT_change)
-
+                                            f'{path}/calib_res/{data[1]}.yml',RT_change,v_idx_path,f_idx_path)
         elif cameratype =='364056001172':
             pixel_coords, _3d_right_ear=wtouv._3d_to_uv(1,f'{path}/{facial}/obj/face_0000_pr.obj', f'{path}/cam_res/{data[0]}.yml',
-                                            f'{path}/calib_res/{data[1]}.yml',RT_change)
-
+                                            f'{path}/calib_res/{data[1]}.yml',RT_change,v_idx_path,f_idx_path)
         else :
             pixel_coords, _3d = wtouv._3d_to_uv(0,f'{path}/{facial}/obj/face_0000_pr.obj', f'{path}/cam_res/{data[0]}.yml',
-                                            f'{path}/calib_res/{data[1]}.yml',RT_change)
-
+                                            f'{path}/calib_res/{data[1]}.yml',RT_change,v_idx_path,f_idx_path)
         camerainfouv[cameratype].append(pixel_coords)
         if ll == 0:
             ll = len(_3d)
@@ -111,10 +108,17 @@ def approach(path,facial,RT_change):
     with open(f'{path}/{facial}/{facial}.json', 'w') as file:
         file.write(formatted_data)
 if __name__=='__main__':
-    path='D:/自动step/feature_data'
-    facial = f'0000'
-    RT_change = True  # 是否为transformer转化为R ,T外参数矩阵
-    approach(path, facial, RT_change)
+    path='D:/second_try_test/feature_data'
+    facial=None
+    v_idx_path = './v_idx.txt'
+    f_idx_path = './f_idx.txt'
+    for i in range(18):
+        if i < 10 :
+            facial=f'000{i}'
+        else:
+            facial=f'00{i}'
+        RT_change = True  # 是否为transformer转化为R ,T外参数矩阵
+        approach(path, facial, RT_change,v_idx_path,f_idx_path)
 
 
 
